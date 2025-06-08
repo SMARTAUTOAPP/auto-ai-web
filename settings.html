@@ -73,16 +73,11 @@
     }
 
     function saveSettings() {
-  const key = document.getElementById("apiKey").value;
-  const model = document.getElementById("model").value;
+      const key = document.getElementById("apiKey").value;
+      const model = document.getElementById("model").value;
 
-  localStorage.setItem("apiKey", key);
-  localStorage.setItem("model", model);
-
-  alert("✅ تم حفظ الإعدادات بنجاح!");
-  window.location.href = "chat.html"; // الانتقال إلى صفحة الشات
-}
-
+      if (!key) {
+        alert("يرجى إدخال مفتاح OpenAI API.");
         return;
       }
 
