@@ -47,11 +47,15 @@
     button:hover {
       background-color: #2c5282;
     }
-    .note {
+    .note, .register-link {
       text-align: center;
       font-size: 0.9rem;
       color: #666;
       margin-top: 1rem;
+    }
+    .register-link a {
+      color: #2b6cb0;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -61,6 +65,7 @@
     <input type="text" id="username" placeholder="👤 اسم المستخدم" />
     <input type="password" id="password" placeholder="🔒 كلمة المرور" />
     <button onclick="login()">تسجيل الدخول</button>
+    <p class="register-link">لا تملك حساباً؟ <a href="register.html">أنشئ حساب</a></p>
     <p class="note">© 2025 أوتو AI - جميع الحقوق محفوظة</p>
   </div>
 
@@ -69,7 +74,10 @@
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
-      if (user === "admin" && pass === "1234") {
+      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+      const found = storedUsers.find(u => u.username === user && u.password === pass);
+
+      if (found) {
         localStorage.setItem("auth", "true");
         window.location.href = "dashboard.html";
       } else {

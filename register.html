@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل حساب - أوتو AI</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #edf2f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      direction: rtl;
+    }
+    .register-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .register-container h2 {
+      text-align: center;
+      color: #2b6cb0;
+      margin-bottom: 1.5rem;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2b6cb0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2c5282;
+    }
+    .note, .login-link {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 1rem;
+    }
+    .login-link a {
+      color: #2b6cb0;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>تسجيل حساب جديد</h2>
+    <input type="text" id="newUsername" placeholder="👤 اسم المستخدم" />
+    <input type="password" id="newPassword" placeholder="🔒 كلمة المرور" />
+    <button onclick="register()">تسجيل</button>
+    <p class="login-link">هل لديك حساب؟ <a href="index.html">سجّل الدخول</a></p>
+    <p class="note">© 2025 أوتو AI - جميع الحقوق محفوظة</p>
+  </div>
+
+  <script>
+    function register() {
+      const newUser = document.getElementById("newUsername").value;
+      const newPass = document.getElementById("newPassword").value;
+
+      if (!newUser || !newPass) {
+        alert("يرجى إدخال اسم المستخدم وكلمة المرور.");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (users.some(u => u.username === newUser)) {
+        alert("⚠️ اسم المستخدم مسجل بالفعل.");
+        return;
+      }
+
+      users.push({ username: newUser, password: newPass });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("✅ تم إنشاء الحساب بنجاح.");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
