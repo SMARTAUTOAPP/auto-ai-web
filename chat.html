@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أوتو AI - محادثة</title>
+  <style>
+    body { font-family: 'Arial', sans-serif; background-color: #f7fafc; margin: 0; padding: 0; }
+    .chat-container { max-width: 800px; margin: auto; padding: 2rem; }
+    .message { background: #edf2f7; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+    .user { background: #bee3f8; text-align: right; }
+    .assistant { background: #e2e8f0; text-align: left; }
+    form { display: flex; gap: 1rem; margin-top: 2rem; }
+    input[type="text"] { flex: 1; padding: 1rem; border: 1px solid #ccc; border-radius: 10px; }
+    button { padding: 1rem 2rem; background-color: #2b6cb0; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    button:hover { background-color: #2c5282; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <h2>🤖 دردشة أوتو AI</h2>
+    <div id="chatBox"></div>
+    <form id="chatForm">
+      <input type="text" id="userInput" placeholder="اكتب سؤالك هنا..." required>
+      <button type="submit">إرسال</button>
+    </form>
+  </div>
+
+  <script>
+    const apiKey = localStorage.getItem("apiKey");
+    const model = localStorage.getItem("model") || "gpt-3.5-turbo";
+
+    async function sendMessage(message) {
+      if (!apiKey) {
+        alert("⚠️ الرجاء إدخال مفتاح API في صفحة الإعدادات.");
+        return;
+      }
+
+      const chatBox = document.getElementById("chatBox");
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user";
+      userMessage.textContent = message;
+      chatBox.appendChild(userMessage);
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [{ role: "user", content: message }]
+        })
+      });
+
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content || "❌ حدث خطأ في الرد من الخادم.";
+
+      const botMessage = document.createElement("div");
+      botMessage.className = "message assistant";
+      botMessage.textContent = reply;
+      chatBox.appendChild(botMessage);
+    }
+
+    document.getElementById("chatForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (message) {
+        input.value = "";
+        await sendMessage(message);
+      }
+    });
+  </script>
+</body>
+</html>
