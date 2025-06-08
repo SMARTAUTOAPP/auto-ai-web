@@ -73,13 +73,16 @@
     }
 
     function saveSettings() {
-      const key = document.getElementById("apiKey").value;
-      const model = document.getElementById("model").value;
+  const key = document.getElementById("apiKey").value;
+  const model = document.getElementById("model").value;
 
-      localStorage.setItem("apiKey", key);
-      localStorage.setItem("model", model);
+  localStorage.setItem("apiKey", key);
+  localStorage.setItem("model", model);
 
-      alert("✅ تم حفظ الإعدادات بنجاح!");
+  alert("✅ تم حفظ الإعدادات بنجاح!");
+  window.location.href = "chat.html"; // الانتقال إلى صفحة الشات
+}
+
     }
   </script>
   <a href="chat.html">
