@@ -67,7 +67,6 @@
   </div>
 
   <script>
-    // تحميل الإعدادات المخزنة
     window.onload = function() {
       document.getElementById("apiKey").value = localStorage.getItem("apiKey") || "";
       document.getElementById("model").value = localStorage.getItem("model") || "gpt-3.5-turbo";
@@ -86,7 +85,7 @@
       localStorage.setItem("model", model);
 
       alert("✅ تم حفظ الإعدادات بنجاح!");
-      window.location.href = "chat.html"; // الانتقال إلى صفحة الشات
+      window.location.href = "chat.html";
     }
   </script>
 </body>
