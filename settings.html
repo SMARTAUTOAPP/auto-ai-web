@@ -72,21 +72,16 @@
       document.getElementById("model").value = localStorage.getItem("model") || "gpt-3.5-turbo";
     }
 
-    function saveSettings() {
-      const key = document.getElementById("apiKey").value;
-      const model = document.getElementById("model").value;
+  function saveSettings() {
+  const key = document.getElementById("apiKey").value;
+  const model = document.getElementById("model").value;
 
-      if (!key) {
-        alert("يرجى إدخال مفتاح OpenAI API.");
-        return;
-      }
+  localStorage.setItem("apiKey", key);
+  localStorage.setItem("model", model);
 
-      localStorage.setItem("apiKey", key);
-      localStorage.setItem("model", model);
-
-      alert("✅ تم حفظ الإعدادات بنجاح!");
-      window.location.href = "chat.html";
-    }
+  alert("✅ تم حفظ الإعدادات بنجاح!");
+  window.location.href = "chat.html"; // الانتقال إلى صفحة الشات
+}
   </script>
 </body>
 </html>
