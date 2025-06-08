@@ -73,12 +73,16 @@
     }
 
     function saveSettings() {
-      const key = document.getElementById("apiKey").value;
-      const model = document.getElementById("model").value;
+  const key = document.getElementById("apiKey").value;
+  const model = document.getElementById("model").value;
 
-      if (!key) {
-        alert("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");
-      window.location.href = "chat.html";
+  localStorage.setItem("apiKey", key);
+  localStorage.setItem("model", model);
+
+  alert("✅ تم حفظ الإعدادات بنجاح!");
+  window.location.href = "chat.html"; // الانتقال إلى صفحة الشات
+}
+
         return;
       }
 
