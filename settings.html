@@ -63,10 +63,11 @@
       <option value="gpt-4">GPT-4</option>
     </select>
 
-    <button onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    <button onclick="saveSettings()">💾 حفظ الإعدادات والانتقال إلى المحادثة</button>
   </div>
 
   <script>
+    // تحميل الإعدادات المخزنة
     window.onload = function() {
       document.getElementById("apiKey").value = localStorage.getItem("apiKey") || "";
       document.getElementById("model").value = localStorage.getItem("model") || "gpt-3.5-turbo";
@@ -79,7 +80,8 @@
       localStorage.setItem("apiKey", key);
       localStorage.setItem("model", model);
 
-      alert("✅ تم حفظ الإعدادات بنجاح!");
+      alert("✅ تم حفظ الإعدادات بنجاح! سيتم تحويلك إلى صفحة المحادثة.");
+      window.location.href = "chat.html";
     }
   </script>
 </body>
