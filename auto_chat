@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الدردشة</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #eef1f5;
+      direction: rtl;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    textarea, input, button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #chat-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      background: #f9f9f9;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .message { margin-bottom: 10px; }
+    .user { text-align: right; color: #007bff; }
+    .bot { text-align: left; color: #28a745; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💬 صفحة الدردشة</h2>
+    <div id="chat-box"></div>
+    <textarea id="chat-input" placeholder="اكتب رسالتك..."></textarea>
+    <button onclick="sendMessage()">إرسال</button>
+  </div>
+
+  <script>
+    const apiKey = "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";
+
+    function sendMessage() {
+      const chatBox = document.getElementById('chat-box');
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.textContent = message;
+      chatBox.appendChild(userMsg);
+
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot';
+      botMsg.textContent = 'جاري المعالجة...';
+      chatBox.appendChild(botMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      input.value = '';
+
+      fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [
+            { role: "user", content: message }
+          ]
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        botMsg.textContent = data.choices[0].message.content;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      })
+      .catch(error => {
+        botMsg.textContent = "حدث خطأ في الاتصال.";
+        console.error("Error:", error);
+      });
+    }
+  </script>
+</body>
+</html>
